@@ -111,11 +111,11 @@ const PodcastTracker = () => {
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="ranked">
             <ThumbsUp className="w-4 h-4 mr-2" />
-            Ranked Episodes
+            Crowd Ranking
           </TabsTrigger>
           <TabsTrigger value="unwatched">
             <Clock className="w-4 h-4 mr-2" />
-            Unwatched
+            Queued Episodes
           </TabsTrigger>
           <TabsTrigger value="recommendations">
             <Plus className="w-4 h-4 mr-2" />

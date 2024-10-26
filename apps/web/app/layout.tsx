@@ -5,8 +5,9 @@ import type { Metadata } from "next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Podcast Tracker",
-  description: "Track and rate your favorite podcast episodes",
+  title: "Jerry's Favorite Podcasts",
+  description:
+    "Jerry uploads his favorite podcast episodes here, and crowd can upvote to pick their favorites.",
 };
 
 export default function RootLayout({

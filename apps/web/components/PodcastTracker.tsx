@@ -27,6 +27,8 @@ interface Recommendation {
 interface NewRecommendation {
   title: string;
   podcast: string;
+  reasons: string;
+  url: string;
 }
 
 const PodcastTracker = () => {
@@ -68,6 +70,8 @@ const PodcastTracker = () => {
     {
       title: "",
       podcast: "",
+      reasons: "",
+      url: "",
     }
   );
 
@@ -91,12 +95,17 @@ const PodcastTracker = () => {
           recommendedBy: "anonymous",
         },
       ]);
-      setNewRecommendation({ title: "", podcast: "" });
+      setNewRecommendation({
+        title: "",
+        podcast: "",
+        reasons: "",
+        url: "",
+      });
     }
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: keyof NewRecommendation
   ) => {
     setNewRecommendation({
@@ -111,11 +120,11 @@ const PodcastTracker = () => {
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="ranked">
             <ThumbsUp className="w-4 h-4 mr-2" />
-            Crowd Ranking
+            Top Rated
           </TabsTrigger>
           <TabsTrigger value="unwatched">
             <Clock className="w-4 h-4 mr-2" />
-            Queued Episodes
+            Unlistened
           </TabsTrigger>
           <TabsTrigger value="recommendations">
             <Plus className="w-4 h-4 mr-2" />
@@ -126,7 +135,7 @@ const PodcastTracker = () => {
         <TabsContent value="ranked">
           <Card>
             <CardHeader>
-              <CardTitle>Ranked Episodes</CardTitle>
+              <CardTitle>Top Rated</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -166,7 +175,7 @@ const PodcastTracker = () => {
         <TabsContent value="unwatched">
           <Card>
             <CardHeader>
-              <CardTitle>Episodes to Listen</CardTitle>
+              <CardTitle>Unlistened</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -203,14 +212,20 @@ const PodcastTracker = () => {
               <div className="space-y-6">
                 <div className="space-y-4">
                   <Input
-                    placeholder="Episode Title"
+                    placeholder="Podcast Episode Name"
                     value={newRecommendation.title}
                     onChange={(e) => handleInputChange(e, "title")}
                   />
+                  <Textarea
+                    placeholder="Reasons for recommendation"
+                    value={newRecommendation.reasons}
+                    onChange={(e) => handleInputChange(e, "reasons")}
+                    className="min-h-[100px]"
+                  />
                   <Input
-                    placeholder="Podcast Name"
-                    value={newRecommendation.podcast}
-                    onChange={(e) => handleInputChange(e, "podcast")}
+                    placeholder="Episode URL"
+                    value={newRecommendation.url}
+                    onChange={(e) => handleInputChange(e, "url")}
                   />
                   <Button onClick={handleAddRecommendation}>
                     Add Recommendation

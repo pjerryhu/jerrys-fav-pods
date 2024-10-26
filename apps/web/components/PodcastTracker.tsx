@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,9 +8,30 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ThumbsUp, Headphones, Clock, Plus } from "lucide-react";
 
+// Add these interfaces at the top of the file
+interface Episode {
+  id: number;
+  title: string;
+  podcast: string;
+  votes: number;
+  listened: boolean;
+}
+
+interface Recommendation {
+  id: number;
+  title: string;
+  podcast: string;
+  recommendedBy: string;
+}
+
+interface NewRecommendation {
+  title: string;
+  podcast: string;
+}
+
 const PodcastTracker = () => {
   // Sample data structure
-  const [episodes, setEpisodes] = useState([
+  const [episodes, setEpisodes] = useState<Episode[]>([
     {
       id: 1,
       title: "The Future of AI",
@@ -32,7 +55,7 @@ const PodcastTracker = () => {
     },
   ]);
 
-  const [recommendations, setRecommendations] = useState([
+  const [recommendations, setRecommendations] = useState<Recommendation[]>([
     {
       id: 1,
       title: "Space Exploration",
@@ -41,12 +64,14 @@ const PodcastTracker = () => {
     },
   ]);
 
-  const [newRecommendation, setNewRecommendation] = useState({
-    title: "",
-    podcast: "",
-  });
+  const [newRecommendation, setNewRecommendation] = useState<NewRecommendation>(
+    {
+      title: "",
+      podcast: "",
+    }
+  );
 
-  const handleVote = (episodeId) => {
+  const handleVote = (episodeId: number) => {
     setEpisodes(
       episodes.map((episode) =>
         episode.id === episodeId
@@ -68,6 +93,16 @@ const PodcastTracker = () => {
       ]);
       setNewRecommendation({ title: "", podcast: "" });
     }
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: keyof NewRecommendation
+  ) => {
+    setNewRecommendation({
+      ...newRecommendation,
+      [field]: e.target.value,
+    });
   };
 
   return (
@@ -170,22 +205,12 @@ const PodcastTracker = () => {
                   <Input
                     placeholder="Episode Title"
                     value={newRecommendation.title}
-                    onChange={(e) =>
-                      setNewRecommendation({
-                        ...newRecommendation,
-                        title: e.target.value,
-                      })
-                    }
+                    onChange={(e) => handleInputChange(e, "title")}
                   />
                   <Input
                     placeholder="Podcast Name"
                     value={newRecommendation.podcast}
-                    onChange={(e) =>
-                      setNewRecommendation({
-                        ...newRecommendation,
-                        podcast: e.target.value,
-                      })
-                    }
+                    onChange={(e) => handleInputChange(e, "podcast")}
                   />
                   <Button onClick={handleAddRecommendation}>
                     Add Recommendation
